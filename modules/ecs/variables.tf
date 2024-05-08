@@ -25,3 +25,15 @@ variable "task_definition_container_name" {
 variable "task_definition_container_port" {
   type = string
 }
+
+variable "aws_lb_target_group_arn" {
+  type = string
+}
+
+variable "aws_security_group_id" {
+  type = string
+}
+
+variable "public_subnet_1_id" {
+  type = string
+}
