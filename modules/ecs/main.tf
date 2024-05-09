@@ -31,6 +31,30 @@ resource "aws_ecs_task_definition" "task" {
       ]
     }
   ])
+
+  # container_definitions = <<DEFINITION
+  #   [
+  #     {
+  #       "name": "${var.task_definition_container_name}",
+  #       "image": "${var.task_definition_image}",
+  #       "essential": true,
+  #       "portMappings": [
+  #         {
+  #           "containerPort": 5000,
+  #           "hostPort": 5000
+  #         }
+  #       ],
+  #       "logConfiguration": {
+  #         "logDriver": "awslogs",
+  #         "options": {
+  #           "awslogs-group": "${var.cloudwatch_group}",
+  #           "awslogs-region": "${var.aws_region}",
+  #           "awslogs-stream-prefix": "ecs"
+  #         }
+  #       }
+  #     }
+  #   ]
+  #   DEFINITION
 }
 
 resource "aws_ecs_service" "service" {

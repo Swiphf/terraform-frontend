@@ -15,7 +15,8 @@ provider "aws" {
 # ECS module
 module "ecs" {
   source = "./modules/ecs"
-  
+
+  aws_region                     = var.aws_region
   cluster_name                   = var.cluster_name
   service_name                   = var.service_name
   task_definition_network_mode   = var.task_definition_network_mode
@@ -25,7 +26,7 @@ module "ecs" {
   task_definition_container_port = var.task_definition_container_port
 
   # from data:
-  public_subnet_1_id       = module.networking.subnet_ids["public_subnet_1_id"]
-  aws_lb_target_group_arn  = module.networking.aws_lb_target_group["aws_lb_target_group_arn"]
-  aws_security_group_id    = data.aws_security_group.security_group.id
+  public_subnet_1_id      = data.aws_subnet.public_subnet.id
+  aws_lb_target_group_arn = data.aws_lb_target_group.target_group.id
+  aws_security_group_id   = data.aws_security_group.security_group.id
 }
