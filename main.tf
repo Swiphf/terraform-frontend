@@ -25,7 +25,6 @@ module "ecs" {
   task_definition_container_name = var.task_definition_container_name
   task_definition_container_port = var.task_definition_container_port
 
-  # from data:
   public_subnet_1_id      = data.aws_subnet.public_subnet.id
   aws_lb_target_group_arn = data.aws_lb_target_group.target_group.id
   aws_security_group_id   = data.aws_security_group.security_group.id
