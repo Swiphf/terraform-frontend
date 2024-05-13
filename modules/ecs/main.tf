@@ -11,6 +11,7 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
   memory                   = "512"
+  execution_role_arn       = var.execution_role_arn
 
   depends_on = [
     aws_ecs_cluster.ecs-cluster
@@ -22,6 +23,12 @@ resource "aws_ecs_task_definition" "task" {
       image  = var.task_definition_image
       cpu    = 128
       memory = 256
+      environment = [
+        {
+          "name" : "BACKEND_URL",
+          "value" : "https://${data.aws_api_gateway_rest_api.api_gateway_rest_api.id}.execute-api.${var.aws_region}.amazonaws.com/${var.api_gateway_stage}"
+        }
+      ]
       portMappings = [
         {
           containerPort = 5000
@@ -29,6 +36,14 @@ resource "aws_ecs_task_definition" "task" {
           protocol      = "tcp"
         }
       ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          "awslogs-group"         = "/ecs/frontend"
+          "awslogs-region"        = "eu-west-1"
+          "awslogs-stream-prefix" = "frontend"
+        }
+      }
     }
   ])
 

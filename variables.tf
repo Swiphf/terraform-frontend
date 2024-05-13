@@ -11,6 +11,10 @@ variable "service_name" {
   type = string
 }
 
+variable "api_gateway_stage" {
+  type = string
+}
+
 variable "task_definition_image" {
   type = string
 }

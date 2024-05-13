@@ -31,6 +31,14 @@ variable "task_definition_container_port" {
   type = string
 }
 
+variable "execution_role_arn" {
+  type = string
+}
+
+variable "api_gateway_stage" {
+  type = string
+}
+
 variable "aws_lb_target_group_arn" {
   type = string
 }
