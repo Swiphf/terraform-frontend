@@ -1,5 +1,5 @@
 variable "aws_region" {
-  type = string
+  type    = string
   default = "eu-west-1"
 }
 
@@ -32,6 +32,18 @@ variable "task_definition_container_port" {
 }
 
 variable "task_definition_family" {
+  type = string
+}
+
+variable "log_group_name" {
+  type = string
+}
+
+variable "launch_type" {
+  type = string
+}
+
+variable "desired_count" {
   type = string
 }
 

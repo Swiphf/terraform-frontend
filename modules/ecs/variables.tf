@@ -1,5 +1,5 @@
 variable "aws_region" {
-  type = string
+  type    = string
   default = "eu-west-1"
 }
 
@@ -48,5 +48,17 @@ variable "aws_security_group_id" {
 }
 
 variable "public_subnet_1_id" {
+  type = string
+}
+
+variable "log_group_name" {
+  type = string
+}
+
+variable "launch_type" {
+  type = string
+}
+
+variable "desired_count" {
   type = string
 }

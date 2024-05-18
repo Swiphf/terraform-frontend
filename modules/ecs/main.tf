@@ -1,7 +1,12 @@
-
 # Create ECS cluster
 resource "aws_ecs_cluster" "ecs-cluster" {
   name = var.cluster_name
+}
+
+# Create a log group
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+  name              = var.log_group_name
+  retention_in_days = 3
 }
 
 # Define ECS task definitions for frontend
@@ -39,45 +44,21 @@ resource "aws_ecs_task_definition" "task" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "/ecs/frontend"
-          "awslogs-region"        = "eu-west-1"
-          "awslogs-stream-prefix" = "frontend"
+          "awslogs-group"         = var.log_group_name
+          "awslogs-region"        = var.aws_region
+          "awslogs-stream-prefix" = var.task_definition_container_name
         }
       }
     }
   ])
-
-  # container_definitions = <<DEFINITION
-  #   [
-  #     {
-  #       "name": "${var.task_definition_container_name}",
-  #       "image": "${var.task_definition_image}",
-  #       "essential": true,
-  #       "portMappings": [
-  #         {
-  #           "containerPort": 5000,
-  #           "hostPort": 5000
-  #         }
-  #       ],
-  #       "logConfiguration": {
-  #         "logDriver": "awslogs",
-  #         "options": {
-  #           "awslogs-group": "${var.cloudwatch_group}",
-  #           "awslogs-region": "${var.aws_region}",
-  #           "awslogs-stream-prefix": "ecs"
-  #         }
-  #       }
-  #     }
-  #   ]
-  #   DEFINITION
 }
 
 resource "aws_ecs_service" "service" {
   name            = var.service_name
   cluster         = aws_ecs_cluster.ecs-cluster.arn
   task_definition = aws_ecs_task_definition.task.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  desired_count   = var.desired_count
+  launch_type     = var.launch_type
 
   depends_on = [
     aws_ecs_cluster.ecs-cluster
